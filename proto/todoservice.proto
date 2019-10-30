@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+option csharp_namespace = "Todo";
+
+package Todo;
+
 service TodoService {
     rpc AddTodo(AddTodoRequest) returns (AddTodoResponse);
     rpc GetAllTodo(GetAllTodoRequest) returns (GetAllTodoResponse);
@@ -16,13 +20,11 @@ message AddTodoResponse {
     string errorMessage = 2;
 }
 
-message GetAllTodoRequest {
-    
-}
+message GetAllTodoRequest { }
 
 // Repeated signifie array
 message GetAllTodoResponse {
-    repeated SingleTodo = 1;
+    repeated SingleTodo todo = 1;
 }
 
 message SingleTodo {
