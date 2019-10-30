@@ -12,11 +12,19 @@ namespace csharp_server
         const string FOLDER_NAME = "Todo";
         public override Task<AddTodoResponse> AddTodo(AddTodoRequest request, ServerCallContext context)
         {
-            File.WriteAllLines(BuildFilePath(request.Name), new[] { request.Content });
+            var fileName = BuildFilePath(request.Name);
+            var fs = File.Create(fileName);
+            using(var writer = new StreamWriter(fs))
+            {
+                writer.Write(request.Content);
+                writer.Flush();
+            }
+
+            //File.WriteAllLines(BuildFilePath(request.Name), new[] { request.Content });
             return Task.FromResult(new AddTodoResponse());
         }
 
-        public override Task<GetAllTodoResponse> GetAllTodo(GetAllTodoRequest request, ServerCallContext context)
+        public override Task<GetAllTodoResponse> GetAllTodo(Google.Protobuf.WellKnownTypes.Empty request, ServerCallContext context)
         {
             var result = new GetAllTodoResponse();
             result.Todo.Add(GetAllTodo());
@@ -48,7 +56,7 @@ namespace csharp_server
 
         private string GetFileContent(string todoName)
         {
-            return File.ReadAllText(BuildFilePath(todoName));
+            return File.ReadAllText(todoName);
         }
     }
 }

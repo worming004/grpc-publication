@@ -1,12 +1,14 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 option csharp_namespace = "TodoApi";
 
 package TodoApi;
 
 service TodoService {
     rpc AddTodo(AddTodoRequest) returns (AddTodoResponse);
-    rpc GetAllTodo(GetAllTodoRequest) returns (GetAllTodoResponse);
+    rpc GetAllTodo(google.protobuf.Empty) returns (GetAllTodoResponse);
 }
 
 // Ne vous souciez pas des nombres
@@ -19,8 +21,6 @@ message AddTodoResponse {
     string status = 1;
     string errorMessage = 2;
 }
-
-message GetAllTodoRequest { }
 
 // Repeated signifie array
 message GetAllTodoResponse {
