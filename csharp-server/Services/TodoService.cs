@@ -39,7 +39,7 @@ namespace csharp_server
             {
                 return new Todo
                 {
-                    Name = fName,
+                    Name = Path.GetFileName(fName),
                     Content = GetFileContent(fName)
                 };
             }).ToArray();
