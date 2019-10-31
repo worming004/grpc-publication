@@ -28,7 +28,6 @@ message GetAllTodoResponse {
 }
 
 message Todo {
-    int32 id = 1;
-    string name = 2;
-    string content = 3;
+    string name = 1;
+    string content = 2;
 }
