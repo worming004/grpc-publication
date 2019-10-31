@@ -22,15 +22,12 @@ namespace csharp_server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            // nécessaire à grpc pour mapper internalement les routes
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapGrpcService<TodoService>();
 
                 endpoints.MapGet("/", async context =>
