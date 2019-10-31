@@ -1,27 +1,21 @@
-const PROTO_PATH = __dirname  + '/../proto/todoservice.proto';
+const todoService = require('./get-todo-service')
+const minimist = require('minimist');
 
-const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
+var args = minimist(process.argv.slice(2));
 
-const packageDefinition = protoLoader.loadSync(
-    PROTO_PATH,
-    {
-        keepCase: true,
-        longs: String,
-        enums: String,
-        defaults: true,
-        oneofs: true
-    }
-);
+// appeler 'node app.js -c "contenu du todo" -n "nom du todo" par exemple
 
-const api = grpc.loadPackageDefinition(packageDefinition).TodoApi;
-const todoService = new api.TodoService('localhost:5001', grpc.credentials.createInsecure());
+if (args.c)
+    args.content = args.c;
+if (args.n)
+    args.name = args.n;
 
-todoService.AddTodo({name: "first", content: "content"}, (err, resp) => {
+todoService.AddTodo(args, (err, resp) => {
     console.log('ok');
     console.log(err);
     console.log(resp);
     todoService.GetAllTodo({}, (error, res) => {
-        console.log(res)}
-        );
+        console.log(res)
+    }
+    );
 });
