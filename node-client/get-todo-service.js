@@ -15,6 +15,7 @@ const packageDefinition = protoLoader.loadSync(
 );
 
 const api = grpc.loadPackageDefinition(packageDefinition).TodoApi;
+// Pour faciliter notre démo, nous n'utiliserons pas de crédential.
 const todoService = new api.TodoService('localhost:5001', grpc.credentials.createInsecure());
 
 module.exports = todoService;
