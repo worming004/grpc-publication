@@ -1,3 +1,4 @@
+// Chemin d'accès au fichier proto
 const PROTO_PATH = __dirname  + '/../proto/todoservice.proto';
 
 const grpc = require('grpc');
