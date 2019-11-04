@@ -9,15 +9,16 @@ namespace csharp_server
 {
     public class TodoService : TodoApi.TodoService.TodoServiceBase
     {
-        const string FOLDER_NAME = "Todo";
+        const string FOLDER_NAME = "todo";
+        const string EXTENSION = ".td";
         public override Task<AddTodoResponse> AddTodo(AddTodoRequest request, ServerCallContext context)
         {
             var fileName = BuildFilePath(request.Name);
-            var fs = File.Create(fileName);
-            using(var writer = new StreamWriter(fs))
+            using (var fs = new FileStream(fileName, FileMode.Create))
+            using (var writer = new StreamWriter(fs))
             {
                 writer.Write(request.Content);
-                writer.Flush();
+                writer.Close();
             }
 
             //File.WriteAllLines(BuildFilePath(request.Name), new[] { request.Content });
@@ -39,7 +40,7 @@ namespace csharp_server
             {
                 return new Todo
                 {
-                    Name = Path.GetFileName(fName),
+                    Name = Path.GetFileNameWithoutExtension(fName),
                     Content = GetFileContent(fName)
                 };
             }).ToArray();
@@ -47,11 +48,7 @@ namespace csharp_server
 
         private string BuildFilePath(string fileName)
         {
-            return new StringBuilder()
-                        .Append(FOLDER_NAME)
-                        .Append('\\')
-                        .Append(fileName)
-                        .ToString();
+            return Path.Join(FOLDER_NAME, fileName + EXTENSION);
         }
 
         private string GetFileContent(string todoName)
