@@ -16,7 +16,6 @@ if (args.h) {
     console.log('exemple: \'node .\\app.js -a -n "Mon nom" -c "Mon contenu"'); 
 }
 else if (args.a) {
-
     todoService.AddTodo(args, (err, resp) => {
         todoService.GetAllTodo({}, (error, res) => {
             console.log(res)
@@ -24,6 +23,7 @@ else if (args.a) {
     });
 }
 else {
+    // La requêtes du GetAllTodo est un objet vide comme définit dans le fichier proto
     todoService.GetAllTodo({}, (error, res) => {
         console.log(res)
     });
